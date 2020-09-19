@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import "./App.css";
 function App() {
   const Url = "https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev";
   const [result, setResult] = useState([]);
+  const [post, setPost] = useState({business_uid: "", business_type: ""});
   const clear = () => {
     setResult([]);
   };
@@ -37,11 +38,16 @@ function App() {
         console.error(err);
       });
   };
+  const handleChange = e => {
+    e.persist();
+    setPost({...post, [e.target.name]: e.target.value});
+    console.log(post);
+  };
   const sendPostParam = e => {
     const get_url = Url + e.target.value;
     console.log(get_url);
     axios
-      .post(`${get_url}`)
+      .post(`${get_url}/${post.business_type}`)
       .then(res => {
         console.log(res);
         let arr = [{message: res.data.message}];
@@ -56,8 +62,8 @@ function App() {
     console.log(get_url);
     axios
       .post(get_url, {
-        business_uid: "200-000001",
-        business_type: "Meals Schedule"
+        business_uid: post.business_uid,
+        business_type: post.business_type
       })
       .then(res => {
         console.log(res);
@@ -111,31 +117,61 @@ function App() {
           </button>
         </div>
         <div>
-          <p style={{display: "inline-flex", padding: "20px"}}>
-            Sending POST request to /api/v2/updatebusinessparam/Meal
-            Subscription
-          </p>
-          <button
-            name='button4'
-            value='/api/v2/updatebusinessparam/Meal Subscription'
-            className='btn btn-primary'
-            onClick={sendPostParam}
-          >
-            POST PARAM
-          </button>
+          <div className='card'>
+            <p style={{padding: "20px"}}>
+              Sending POST request to /api/v2/updatebusinessparam/Meal
+              Subscription
+            </p>
+            <div>
+              <input
+                type='text'
+                name='business_type'
+                placeholder='post with param'
+                style={{marginRight: "10px"}}
+                onChange={handleChange}
+              />
+              <button
+                name='button4'
+                value='/api/v2/updatebusinessparam'
+                className='btn btn-primary'
+                onClick={sendPostParam}
+              >
+                POST PARAM
+              </button>
+            </div>
+          </div>
         </div>
         <div>
-          <p style={{display: "inline-flex", padding: "20px"}}>
-            Sending POST request to /api/v2/updatebusinessparamjson
-          </p>
-          <button
-            name='button4'
-            value='/api/v2/updatebusinessparamjson'
-            className='btn btn-primary'
-            onClick={sendPostArgs}
-          >
-            POST ARGUMENTS
-          </button>
+          <div className='card'>
+            <p style={{padding: "20px"}}>
+              Sending POST request to /api/v2/updatebusinessparam/Meal
+              Subscription
+            </p>
+            <div>
+              <input
+                type='text'
+                name='business_uid'
+                placeholder='business_uid'
+                style={{marginRight: "10px"}}
+                onChange={handleChange}
+              />
+              <input
+                type='text'
+                name='business_type'
+                placeholder='business_type'
+                style={{marginRight: "10px"}}
+                onChange={handleChange}
+              />
+              <button
+                name='button4'
+                value='/api/v2/updatebusinessparam'
+                className='btn btn-primary'
+                onClick={sendPostParam}
+              >
+                POST PARAM
+              </button>
+            </div>
+          </div>
         </div>
         <div>
           <button className='btn btn-danger' onClick={clear}>
