@@ -4,9 +4,14 @@ import "./App.css";
 function App() {
   const Url = "https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev";
   const [result, setResult] = useState([]);
-  const [post, setPost] = useState({business_uid: "", business_type: ""});
+  const [post, setPost] = useState({
+    business_uid: "",
+    business_type: "",
+    business_type2: ""
+  });
   const clear = () => {
     setResult([]);
+    setPost({business_type: "", business_uid: "", business_type2: ""});
   };
   const sendGetSlash = e => {
     const get_url = Url + e.target.value;
@@ -63,7 +68,7 @@ function App() {
     axios
       .post(get_url, {
         business_uid: post.business_uid,
-        business_type: post.business_type
+        business_type: post.business_type2
       })
       .then(res => {
         console.log(res);
@@ -126,7 +131,8 @@ function App() {
               <input
                 type='text'
                 name='business_type'
-                placeholder='post with param'
+                value={post.business_type}
+                placeholder='business_type'
                 style={{marginRight: "10px"}}
                 onChange={handleChange}
               />
@@ -151,13 +157,15 @@ function App() {
               <input
                 type='text'
                 name='business_uid'
+                value={post.business_uid}
                 placeholder='business_uid'
                 style={{marginRight: "10px"}}
                 onChange={handleChange}
               />
               <input
                 type='text'
-                name='business_type'
+                name='business_type2'
+                value={post.business_type2}
                 placeholder='business_type'
                 style={{marginRight: "10px"}}
                 onChange={handleChange}
