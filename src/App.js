@@ -65,11 +65,13 @@ function App() {
   const sendPostArgs = e => {
     const get_url = Url + e.target.value;
     console.log(get_url);
+    let x = {
+      business_uid: post.business_uid,
+      business_type: post.business_type2
+    };
+    console.log(x);
     axios
-      .post(get_url, {
-        business_uid: post.business_uid,
-        business_type: post.business_type2
-      })
+      .post(get_url, x )
       .then(res => {
         console.log(res);
         let arr = [{message: res.data.message}];
@@ -124,8 +126,7 @@ function App() {
         <div>
           <div className='card'>
             <p style={{padding: "20px"}}>
-              Sending POST request to /api/v2/updatebusinessparam/Meal
-              Subscription
+              Sending POST request to /api/v2/updatebusinessparam/"post with param"
             </p>
             <div>
               <input
@@ -150,8 +151,7 @@ function App() {
         <div>
           <div className='card'>
             <p style={{padding: "20px"}}>
-              Sending POST request to /api/v2/updatebusinessparam/Meal
-              Subscription
+              Sending POST request to /api/v2/updatebusinessparam/"post with JSON"
             </p>
             <div>
               <input
@@ -172,9 +172,9 @@ function App() {
               />
               <button
                 name='button4'
-                value='/api/v2/updatebusinessparam'
+                value='/api/v2/updatebusinessparamjson'
                 className='btn btn-primary'
-                onClick={sendPostParam}
+                onClick={sendPostArgs}
               >
                 POST PARAM
               </button>
