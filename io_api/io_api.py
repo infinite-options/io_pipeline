@@ -579,7 +579,7 @@ class PriceComparison(Resource):
             
         # ENDPOINT THAT WORKS
         # http://localhost:4000/api/v2/priceComparison
-        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/priceComparison
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/priceComparison
 
 
 
