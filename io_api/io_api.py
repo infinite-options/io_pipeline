@@ -448,6 +448,40 @@ class OneBusinessArg(Resource):
 
 
 
+# -- 3a.  GET Query using a argument that has been hardcoded or passed in as varialbe
+#         May need to typecast the variable to get the query to work
+class OneBusinessArg(Resource):
+    # QUERY 3a RETURNS A SPECIFIC BUSINESSES
+    def get(self):
+        response = {}
+        items = {}
+        try:
+            conn = connect()
+            Business_uid = '200-000002'
+            query = """ # QUERY 1 RETURNS ALL BUSINESSES
+                SELECT * FROM sf.businesses 
+                WHERE business_uid = \'""" + str(Business_uid) + """\';
+                """
+
+            items = execute(query, 'get', conn)
+
+            response['message'] = 'Businesses successful'
+            response['result'] = items['result']
+            return response, 200
+        except:
+            raise BadRequest('Request failed, please try again later.')
+        finally:
+            disconnect(conn)
+        
+        # ENDPOINT AND JSON OBJECT THAT WORKS
+        # http://localhost:4000/api/v2/onebusinessarg
+        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/onebusinessarg
+
+
+
+
+
+
 # -- 4.  POST Query using a / to pass in a parameter
 # -- include parameter in post 
 class UpdateBusinessParam(Resource):
