@@ -352,6 +352,7 @@ def couponExists(coupon_id):
 # -- 1.  GET Query
 # -- 2.  GET Query using a / to pass in a parameter
 # -- 3.  GET Query using a argument to pass in a parameter
+# -- 3a. GET Query using a variable to pass in a parameter
 # -- 4.  POST Query using a / to pass in a parameter
 # -- 5.  POST Query using a JSON object to pass in a parameter
 
@@ -382,7 +383,7 @@ class Businesses(Resource):
             
         # ENDPOINT THAT WORKS
         # http://localhost:4000/api/v2/businesses
-        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/businesses
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/businesses
 
 
 
@@ -411,8 +412,8 @@ class OneBusiness(Resource):
             disconnect(conn)
         
         # ENDPOINT THAT WORKS
-        # http://localhost:4000/api/v2/onebusiness/200-000003
-        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/onebusiness/200-000003
+        # http://localhost:4000/api/v2/oneBusiness/200-000003
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/oneBusiness/200-000003
     
 
 
@@ -442,8 +443,8 @@ class OneBusinessArg(Resource):
             disconnect(conn)
         
         # ENDPOINT AND JSON OBJECT THAT WORKS
-        # http://localhost:4000/api/v2/onebusinessarg?business_uid=200-000001
-        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/onebusinessarg?business_uid=200-000001
+        # http://localhost:4000/api/v2/oneBusinessArg?business_uid=200-000001
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/oneBusinessArg?business_uid=200-000001
     
 
 
@@ -474,8 +475,8 @@ class OneBusinessVar(Resource):
             disconnect(conn)
         
         # ENDPOINT AND JSON OBJECT THAT WORKS
-        # http://localhost:4000/api/v2/onebusinessvar
-        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/onebusinessvar
+        # http://localhost:4000/api/v2/oneBusinessVar
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/oneBusinessVar
 
 
 
@@ -510,8 +511,9 @@ class UpdateBusinessParam(Resource):
                 disconnect(conn)
                 print('process completed')
        
-        # ENDPOINT AND JSON OBJECT THAT WORKS
-        # http://localhost:4000/api/v2/updatebusinessparam/unique
+        # ENDPOINT AND PARAMETER THAT WORKS
+        # http://localhost:4000/api/v2/updateBusinessParam/unique
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/updateBusinessParam/unique
 
 
 
@@ -547,9 +549,37 @@ class UpdateBusinessParamJSON(Resource):
             disconnect(conn)
 
         # ENDPOINT AND JSON OBJECT THAT WORKS
-        # http://localhost:4000/api/v2/updatebusinessparamjson
+        # http://localhost:4000/api/v2/updateBusinessParamJson
         # {"business_uid":"200-000001", "business_type":"unique"}
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/updateBusinessParamJson
 
+
+
+# -- Price Scapper Sample Queries start here -------------------------------------------------------------------------------
+
+# -- Price Scraper GET Query
+class PriceComparison(Resource):
+    # PRICE COMPARISON QUERY RETURNS ALL COMPARISONS
+    def get(self):
+        response = {}
+        items = {}
+        try:
+            conn = connect()
+            query = """ # QUERY 1 RETURNS ALL PRICE COMPARISON
+                SELECT * FROM pricing.price_competitive; """
+            items = execute(query, 'get', conn)
+
+            response['message'] = 'Price Comparison successful'
+            response['result'] = items['result']
+            return response, 200
+        except:
+            raise BadRequest('Request failed, please try again later.')
+        finally:
+            disconnect(conn)
+            
+        # ENDPOINT THAT WORKS
+        # http://localhost:4000/api/v2/priceComparison
+        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/priceComparison
 
 
 
@@ -561,11 +591,13 @@ class UpdateBusinessParamJSON(Resource):
 # Define API routes
 
 api.add_resource(Businesses, '/api/v2/businesses')
-api.add_resource(OneBusiness, '/api/v2/onebusiness/<string:business_uid>') 
-api.add_resource(OneBusinessArg, '/api/v2/onebusinessarg')
-api.add_resource(OneBusinessVar, '/api/v2/onebusinessvar')
-api.add_resource(UpdateBusinessParam, '/api/v2/updatebusinessparam/<string:business_type>') 
-api.add_resource(UpdateBusinessParamJSON, '/api/v2/updatebusinessparamjson') 
+api.add_resource(OneBusiness, '/api/v2/oneBusiness/<string:business_uid>') 
+api.add_resource(OneBusinessArg, '/api/v2/oneBusinessArg')
+api.add_resource(OneBusinessVar, '/api/v2/oneBusinessVar')
+api.add_resource(UpdateBusinessParam, '/api/v2/updateBusinessParam/<string:business_type>') 
+api.add_resource(UpdateBusinessParamJSON, '/api/v2/updateBusinessParamJson') 
+
+api.add_resource(PriceComparison, '/api/v2/priceComparison')
 
 
 # Run on below IP address and port
