@@ -450,7 +450,7 @@ class OneBusinessArg(Resource):
 
 # -- 3a.  GET Query using a argument that has been hardcoded or passed in as varialbe
 #         May need to typecast the variable to get the query to work
-class OneBusinessArg(Resource):
+class OneBusinessVar(Resource):
     # QUERY 3a RETURNS A SPECIFIC BUSINESSES
     def get(self):
         response = {}
@@ -474,8 +474,8 @@ class OneBusinessArg(Resource):
             disconnect(conn)
         
         # ENDPOINT AND JSON OBJECT THAT WORKS
-        # http://localhost:4000/api/v2/onebusinessarg
-        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/onebusinessarg
+        # http://localhost:4000/api/v2/onebusinessvar
+        # https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/onebusinessvar
 
 
 
@@ -563,6 +563,7 @@ class UpdateBusinessParamJSON(Resource):
 api.add_resource(Businesses, '/api/v2/businesses')
 api.add_resource(OneBusiness, '/api/v2/onebusiness/<string:business_uid>') 
 api.add_resource(OneBusinessArg, '/api/v2/onebusinessarg')
+api.add_resource(OneBusinessVar, '/api/v2/onebusinessvar')
 api.add_resource(UpdateBusinessParam, '/api/v2/updatebusinessparam/<string:business_type>') 
 api.add_resource(UpdateBusinessParamJSON, '/api/v2/updatebusinessparamjson') 
 
