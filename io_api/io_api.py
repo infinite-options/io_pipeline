@@ -583,6 +583,32 @@ class PriceComparison(Resource):
 
 
 
+# -- NityaAyurveda Sample Queries start here -------------------------------------------------------------------------------
+
+# -- Treatment GET Query
+class Treatment(Resource):
+    # TREATMENT QUERY RETURNS ALL TREATMENTS
+    def get(self):
+        response = {}
+        items = {}
+        try:
+            conn = connect()
+            query = """ # QUERY 1 RETURNS ALL TREATMENTS
+                SELECT * FROM nitya.treatments;; """
+            items = execute(query, 'get', conn)
+
+            response['message'] = 'Treatment query successful'
+            response['result'] = items['result']
+            return response, 200
+        except:
+            raise BadRequest('Request failed, please try again later.')
+        finally:
+            disconnect(conn)
+            
+        # ENDPOINT THAT WORKS
+        # http://localhost:4000/api/v2/treatment
+        # https://kfc19k33sc.execute-api.us-west-1.amazonaws.com/dev/api/v2/treatment
+
 # -- DEFINE APIS -------------------------------------------------------------------------------
 
 
@@ -598,7 +624,7 @@ api.add_resource(UpdateBusinessParam, '/api/v2/updateBusinessParam/<string:busin
 api.add_resource(UpdateBusinessParamJSON, '/api/v2/updateBusinessParamJson') 
 
 api.add_resource(PriceComparison, '/api/v2/priceComparison')
-
+api.add_resource(Treatment, '/api/v2/treatment')
 
 # Run on below IP address and port
 # Make sure port number is unused (i.e. don't use numbers 0-1023)
